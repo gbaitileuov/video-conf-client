@@ -142,8 +142,8 @@ const Login = ({ handleJoin }) => {
               >
                 {useMediaQuery("(min-width:375px)") && t("settings")}
               </Button>
-              {drawerOn && <Settings onClose={drawerOpenHandler} />}
             </FormGroup>
+            {drawerOn && <Settings onClose={drawerOpenHandler} />}
           </div>
         </Paper>
         <Box className="login__form" component="form" noValidate onSubmit={handleJoin}>
