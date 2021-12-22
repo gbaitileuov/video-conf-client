@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useContext } from "react";
 import { Redirect, Route } from "react-router";
 import { authContext } from "./components/conference";
-import { createBrowserHistory } from "history";
+import { useTranslation } from "react-i18next";
 
 export const stringToColor = (string) => {
   let hash = 0;
@@ -55,30 +55,9 @@ export function a11yProps(index) {
   };
 }
 
-export function PublicRoute({ children, ...rest }) {
-  let auth = useContext(authContext);
-  const history = createBrowserHistory();
-  if (auth.user.name) {
-    history.push("/calling");
-  }
-
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        auth.user.name ? (
-          <Redirect
-            to={{
-              pathname: "/calling",
-              state: { from: location },
-            }}
-          />
-        ) : (
-          children
-        )
-      }
-    />
-  );
+export function PublicRoute({ children, path, roomIdChecked, ...rest }) {
+  const { t } = useTranslation();
+  return <Route path={path} {...rest} render={() => (roomIdChecked ? children : <div className="broken-url">{t("linkIsNotValid")}</div>)} />;
 }
 
 export function PrivateRoute({ children, ...rest }) {

@@ -584,4 +584,29 @@ body {
   height: 100%;
 }
 
+.call-end {
+  &__paper {
+    margin: 64px 0 20px;
+    padding: 20px;
+  }
+  &__header {
+    font-size: 16px;
+  }
+  &__textarea {
+    margin: 20px 0 15px;
+  }
+  &__rating {
+    margin-bottom: 20px;
+  }
+  &__rating-label {
+    padding-top: 4px;
+    font-size: 12px;
+  }
+  &__bottom {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
 @import "media";

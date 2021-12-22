@@ -3,7 +3,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { StyledEngineProvider } from "@mui/material/styles";
 import Login from "./Login";
 import NavBar from "./NavBar";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 import Calling from "./Calling";
 import { createContext, useEffect, useRef, useState } from "react";
 import "./styles.scss";
@@ -72,6 +72,7 @@ const Conference = () => {
   const [roomIdChecked, setRoomIdChecked] = useState(false);
   const [loading, setLoading] = useState(true);
   const [lang, setLang] = useState(i18n.language);
+  const history = useHistory();
 
   const handleLangChange = (_, newLang) => {
     localStorage.setItem("i18nextLng", newLang);
@@ -195,42 +196,38 @@ const Conference = () => {
           console.error("create-chat addPeople error");
         }
       });
+
+    history.push("/calling");
   };
 
   return (
-    <Router>
-      <StyledEngineProvider injectFirst>
-        <CssBaseline />
-        <ThemeProvider theme={theme}>
-          <authContext.Provider value={auth}>
-            <div className="header">
-              <NavBar lang={lang} handleLangChange={handleLangChange} />
-            </div>
-            <main className="content">
-              {!loading ? (
-                <Switch>
-                  <PublicRoute path="/" exact>
-                    {!roomIdChecked ? (
-                      <div className="broken-url">{t("linkIsNotValid")}</div>
-                    ) : (
-                      <Login roomId={roomId.current} handleJoin={handleJoin} />
-                    )}
-                  </PublicRoute>
-                  <PrivateRoute path="/calling">
-                    <Calling roomId={roomId.current} userId={userId} socket={socket} roomIdChecked={roomIdChecked} />
-                  </PrivateRoute>
-                  <Route path="*">
-                    <Redirect to="/" />
-                  </Route>
-                </Switch>
-              ) : (
-                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>{t("wait")}</div>
-              )}
-            </main>
-          </authContext.Provider>
-        </ThemeProvider>
-      </StyledEngineProvider>
-    </Router>
+    <StyledEngineProvider injectFirst>
+      <CssBaseline />
+      <ThemeProvider theme={theme}>
+        <authContext.Provider value={auth}>
+          <div className="header">
+            <NavBar lang={lang} handleLangChange={handleLangChange} />
+          </div>
+          <main className="content">
+            {!loading ? (
+              <Switch>
+                <PublicRoute path="/" roomIdChecked={roomIdChecked} exact>
+                  <Login roomId={roomId.current} handleJoin={handleJoin} />
+                </PublicRoute>
+                <PrivateRoute path="/calling">
+                  <Calling roomId={roomId.current} userId={userId} socket={socket} roomIdChecked={roomIdChecked} />
+                </PrivateRoute>
+                <Route path="*">
+                  <Redirect to="/" />
+                </Route>
+              </Switch>
+            ) : (
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>{t("wait")}</div>
+            )}
+          </main>
+        </authContext.Provider>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 };
 

@@ -16,6 +16,13 @@ import {
   IconButton,
   Alert,
   Link,
+  Paper,
+  Container,
+  TextField,
+  Rating,
+  Stack,
+  Button,
+  Divider,
 } from "@mui/material";
 import { closeMediaStream } from "../../utils";
 import VideocamIcon from "@mui/icons-material/Videocam";
@@ -28,6 +35,7 @@ import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import PhoneDisabledIcon from "@mui/icons-material/PhoneDisabled";
 import CloseIcon from "@mui/icons-material/Close";
+import StarIcon from "@mui/icons-material/Star";
 import Settings from "./drawers/Settings";
 import LocalVideoView from "./videoview/LocalVideoView";
 import { useDispatch, useSelector } from "react-redux";
@@ -44,6 +52,7 @@ const exclusiveActions = ["settingsOn", "medOn", "chatOn", "peopleOn"];
 
 const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
   const auth = useContext(authContext);
+  const videoAreaRef = useRef();
   const [drawerActions, setDrawerActions] = useState([]);
   const localVideoSettings = useSelector((state) => state.localVideoSettings.localVideoSettings);
   const deviceSettings = useSelector((state) => state.deviceSettings.deviceSettings);
@@ -63,6 +72,9 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
   const [sendingMsg, setSendingMsg] = useState(false);
   const [alertDiagNazOpen, setAlertDiagNazOpen] = useState(false);
   const { t } = useTranslation();
+  const [callEnd, setCallEnd] = useState(false);
+  const [rateValue, setRateValue] = useState(0);
+  const [rateHover, setRateHover] = useState(-1);
 
   const handleAlertDiagNazClose = (_, reason) => {
     if (reason === "clickaway") {
@@ -136,22 +148,23 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
   const closeDrawerActions = () => handleDrawerActions(null, drawerActions, true);
 
   useEffect(() => {
+    if (!videoAreaRef.current) return;
     if (settingsOn || chatOn || peopleOn) {
-      document.getElementById("video-area").style.marginRight = "320px";
+      videoAreaRef.current.style.marginRight = "320px";
     } else if (medOn) {
-      document.getElementById("video-area").style.marginRight = drawerMatchLG ? "320px" : "600px";
+      videoAreaRef.current.style.marginRight = drawerMatchLG ? "320px" : "600px";
     } else {
-      document.getElementById("video-area").style.marginRight = 0;
+      videoAreaRef.current.style.marginRight = 0;
     }
   }, [settingsOn, medOn, chatOn, peopleOn, drawerMatchLG]);
 
   function goToBack() {
     // socket.emit("BE-leave-room", { roomId });
-    window.location.href = "/?" + roomId;
+    setCallEnd(true);
   }
 
   useEffect(() => {
-    ["popstate"].forEach((event) => window.addEventListener(event, goToBack));
+    ["popstate"].forEach((event) => window.addEventListener(event, () => (window.location.href = "/?" + roomId)));
 
     const beUrl = "https://tmedback.herokuapp.com/api/chatDetails/" + roomId;
     fetch(beUrl, {
@@ -523,10 +536,6 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
       });
     });
 
-    // peer.on("close", () => {
-    //   peer.destroy();
-    // });
-
     return peer;
   }
 
@@ -541,10 +550,6 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
       socket.emit("BE-accept-call", { roomId, signal, to: callerId });
     });
 
-    // peer.on("close", () => {
-    //   peer.destroy();
-    // });
-
     peer.signal(incomingSignal);
 
     return peer;
@@ -554,15 +559,75 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
     return peersRef.current.find((p) => p.peerID === id);
   }
 
-  // console.log("PeersVideoAudio:", peersVideoAudio);
+  const handleRate = (e) => {
+    e.preventDefault();
 
-  // peersRef.current.forEach((peer) => {
-  //   console.log("peer.userName:", peer.userName);
-  // });
+    if (!e.target.rate_text.value) {
+      e.target.rate_text.focus();
+      return;
+    }
+
+    console.log("text:", e.target.rate_text.value);
+    console.log("stars:", rateValue);
+
+    window.location.href = "/?" + roomId;
+  };
+
+  if (callEnd) {
+    const labels = {
+      0: "Выберите оценку",
+      1: "Ужасно",
+      2: "Плохо",
+      3: "Нормально",
+      4: "Хорошо",
+      5: "Отлично",
+    };
+    return (
+      <Container className="call-end" maxWidth="sm">
+        <Paper className="call-end__paper">
+          <div className="call-end__header">Мы будем благодарны за отзыв о нашем сервисе. Ваши отзывы очень сильно помогают стать нам ещё лучше.</div>
+          <form onSubmit={handleRate}>
+            <TextField
+              className="call-end__textarea"
+              name="rate_text"
+              fullWidth
+              multiline
+              minRows={7}
+              maxRows={20}
+              placeholder="Как вам этот сервис? Помог ли он вам?"
+              helperText="Рекомендуем оставлять отзывы не короче ста слов."
+            />
+            <Stack className="call-end__rating" spacing={2} direction="row" alignItems="center">
+              <Rating
+                name="rate_stars"
+                value={rateValue}
+                size="large"
+                onChange={(_, newValue) => {
+                  setRateValue(newValue);
+                }}
+                onChangeActive={(_, newHover) => {
+                  setRateHover(newHover);
+                }}
+                emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+              />
+              {rateValue !== null && <div className="call-end__rating-label">{labels[rateHover !== -1 ? rateHover : rateValue]}</div>}
+            </Stack>
+            <Divider />
+            <Stack className="call-end__bottom" spacing={4} direction="row" alignItems="center">
+              <Link href={`/?${roomId}`}>Не отправлять отзыв и начать заново</Link>
+              <Button variant="contained" color="primary" type="submit">
+                Отправить
+              </Button>
+            </Stack>
+          </form>
+        </Paper>
+      </Container>
+    );
+  }
 
   return (
     <>
-      <section id="video-area" className="video-area">
+      <section ref={videoAreaRef} className="video-area">
         {localStreamLoaded && localStreamRef.current && <LocalVideoView stream={localStreamRef.current} />}
         {peersCount === 0 ? (
           <div className="video-area__waiting">
