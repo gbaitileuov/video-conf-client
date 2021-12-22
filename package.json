@@ -1,0 +1,61 @@
+{
+  "name": "video-conference",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.5.0",
+    "@emotion/styled": "^11.3.0",
+    "@mui/icons-material": "^5.0.4",
+    "@mui/material": "^5.0.4",
+    "@reduxjs/toolkit": "^1.6.2",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "file-saver": "^2.0.5",
+    "file-size": "^1.0.0",
+    "http-proxy-middleware": "^2.0.1",
+    "i18next": "^21.6.0",
+    "i18next-browser-languagedetector": "^6.1.2",
+    "jspdf": "^2.4.0",
+    "mime-db": "^1.51.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-dropzone": "^11.4.2",
+    "react-i18next": "^11.15.0",
+    "react-image-lightbox": "^5.1.4",
+    "react-redux": "^7.2.6",
+    "react-router-dom": "^5.3.0",
+    "react-scripts": "4.0.3",
+    "sass": "^1.44.0",
+    "simple-peer": "^9.11.0",
+    "socket.io-client": "^4.4.0",
+    "web-vitals": "^1.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {},
+  "proxy2": "http://192.168.43.84:3001",
+  "proxy": "https://tmed-server.herokuapp.com"
+}

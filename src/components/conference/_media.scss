@@ -1,0 +1,37 @@
+@media (max-height: 650px) {
+  // .navbar,
+  // .navbar__offset {
+  //   display: none;
+  // }
+  .login {
+    &__box {
+      margin-top: 20px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .drawer {
+    width: 100% !important;
+    &__navbar {
+      width: 100% !important;
+    }
+    &__navbar-phone-back {
+      display: block;
+      margin-top: 5px;
+      margin-left: -5px;
+    }
+  }
+}
+
+@media (max-width: 375px) {
+  .login {
+    &__form {
+      display: block;
+    }
+    &__input {
+      margin-bottom: 10px;
+      width: 99%;
+    }
+  }
+}
