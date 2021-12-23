@@ -29,7 +29,6 @@ import VideocamIcon from "@mui/icons-material/Videocam";
 import VideocamOffIcon from "@mui/icons-material/VideocamOff";
 import MicSharpIcon from "@mui/icons-material/MicSharp";
 import MicOffSharpIcon from "@mui/icons-material/MicOffSharp";
-// import MoreVertIcon from "@mui/icons-material/MoreVert";
 import LocalHospitalOutlinedIcon from "@mui/icons-material/LocalHospitalOutlined";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
@@ -46,7 +45,6 @@ import Message from "./chat/message";
 import { createPDF } from "./chat/createFiles";
 import Peer from "simple-peer";
 import { useTranslation } from "react-i18next";
-import sockets from "./socket";
 
 const multiActions = ["videoOn", "audioOn", "phoneOn"];
 const exclusiveActions = ["settingsOn", "medOn", "chatOn", "peopleOn"];
