@@ -46,6 +46,7 @@ import Message from "./chat/message";
 import { createPDF } from "./chat/createFiles";
 import Peer from "simple-peer";
 import { useTranslation } from "react-i18next";
+import sockets from "./socket";
 
 const multiActions = ["videoOn", "audioOn", "phoneOn"];
 const exclusiveActions = ["settingsOn", "medOn", "chatOn", "peopleOn"];
@@ -584,6 +585,13 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
   };
 
   if (callEnd) {
+    if (auth.user.role === "dr") {
+      window.location.href = "/?" + roomId;
+      return;
+    }
+
+    socket.disconnect();
+
     const labels = t("endCallRateTextArray", { returnObjects: true });
     return (
       <>

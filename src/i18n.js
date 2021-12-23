@@ -48,7 +48,7 @@ const resources = {
       endCallTextareaPlaceholder: "Как вам этот сервис? Помог ли он вам?",
       endCallTextareaHelperText: "Рекомендуем оставлять отзывы не короче ста слов.",
       endCallRateTextArray: ["Выберите оценку", "Ужасно", "Плохо", "Нормально", "Хорошо", "Отлично"],
-      endCallStartOver: "Не отправлять отзыв и начать заново",
+      endCallStartOver: "Начать заново",
       endCallSendBtn: "Отправить",
       endCallAlert: "Большое спасибо за оставленный отзыв!",
     },
