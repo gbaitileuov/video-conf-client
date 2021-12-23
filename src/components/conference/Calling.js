@@ -567,12 +567,28 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
       return;
     }
 
-    console.log("text:", e.target.rate_text.value);
-    console.log("stars:", rateValue);
+    const beUrl = "https://tmedback.herokuapp.com/api/create-chat/";
+    fetch(beUrl, {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ review: e.target.rate_text.value, star: rateValue, link: roomId }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data || !data.id) {
+          console.error("create-chat addReview and addRate error");
+          return;
+        }
 
-    setEndCallAlertOpen(true);
-
-    setTimeout(() => (window.location.href = "/?" + roomId), 5000);
+        setEndCallAlertOpen(true);
+        setTimeout(() => (window.location.href = "/?" + roomId), 5000);
+      })
+      .catch((e) => console.log(e));
   };
 
   const handleEndCallAlertClose = (_, reason) => {
