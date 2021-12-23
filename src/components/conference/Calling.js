@@ -574,18 +574,11 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
   };
 
   if (callEnd) {
-    const labels = {
-      0: "Выберите оценку",
-      1: "Ужасно",
-      2: "Плохо",
-      3: "Нормально",
-      4: "Хорошо",
-      5: "Отлично",
-    };
+    const labels = t("endCallRateTextArray", { returnObjects: true });
     return (
       <Container className="call-end" maxWidth="sm">
         <Paper className="call-end__paper">
-          <div className="call-end__header">Мы будем благодарны за отзыв о нашем сервисе. Ваши отзывы очень сильно помогают стать нам ещё лучше.</div>
+          <div className="call-end__header">{t("endCallHeader")}</div>
           <form onSubmit={handleRate}>
             <TextField
               className="call-end__textarea"
@@ -594,8 +587,8 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
               multiline
               minRows={7}
               maxRows={20}
-              placeholder="Как вам этот сервис? Помог ли он вам?"
-              helperText="Рекомендуем оставлять отзывы не короче ста слов."
+              placeholder={t("endCallTextareaPlaceholder")}
+              helperText={t("endCallTextareaHelperText")}
             />
             <Stack className="call-end__rating" spacing={2} direction="row" alignItems="center">
               <Rating
@@ -614,9 +607,9 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
             </Stack>
             <Divider />
             <Stack className="call-end__bottom" spacing={4} direction="row" alignItems="center">
-              <Link href={`/?${roomId}`}>Не отправлять отзыв и начать заново</Link>
+              <Link href={`/?${roomId}`}>{t("endCallStartOver")}</Link>
               <Button variant="contained" color="primary" type="submit">
-                Отправить
+                {t("ednCallSendBtn")}
               </Button>
             </Stack>
           </form>
