@@ -75,6 +75,7 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
   const [callEnd, setCallEnd] = useState(false);
   const [rateValue, setRateValue] = useState(0);
   const [rateHover, setRateHover] = useState(-1);
+  const [endCallAlertOpen, setEndCallAlertOpen] = useState(false);
 
   const handleAlertDiagNazClose = (_, reason) => {
     if (reason === "clickaway") {
@@ -570,51 +571,77 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
     console.log("text:", e.target.rate_text.value);
     console.log("stars:", rateValue);
 
-    window.location.href = "/?" + roomId;
+    setEndCallAlertOpen(true);
+
+    setTimeout(() => (window.location.href = "/?" + roomId), 5000);
+  };
+
+  const handleEndCallAlertClose = (_, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setEndCallAlertOpen(false);
   };
 
   if (callEnd) {
     const labels = t("endCallRateTextArray", { returnObjects: true });
     return (
-      <Container className="call-end" maxWidth="sm">
-        <Paper className="call-end__paper">
-          <div className="call-end__header">{t("endCallHeader")}</div>
-          <form onSubmit={handleRate}>
-            <TextField
-              className="call-end__textarea"
-              name="rate_text"
-              fullWidth
-              multiline
-              minRows={7}
-              maxRows={20}
-              placeholder={t("endCallTextareaPlaceholder")}
-              helperText={t("endCallTextareaHelperText")}
-            />
-            <Stack className="call-end__rating" spacing={2} direction="row" alignItems="center">
-              <Rating
-                name="rate_stars"
-                value={rateValue}
-                size="large"
-                onChange={(_, newValue) => {
-                  setRateValue(newValue);
-                }}
-                onChangeActive={(_, newHover) => {
-                  setRateHover(newHover);
-                }}
-                emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+      <>
+        <Container className="call-end" maxWidth="sm">
+          <Paper className="call-end__paper">
+            <div className="call-end__header">{t("endCallHeader")}</div>
+            <form onSubmit={handleRate}>
+              <TextField
+                className="call-end__textarea"
+                name="rate_text"
+                fullWidth
+                multiline
+                minRows={7}
+                maxRows={20}
+                placeholder={t("endCallTextareaPlaceholder")}
+                helperText={t("endCallTextareaHelperText")}
               />
-              {rateValue !== null && <div className="call-end__rating-label">{labels[rateHover !== -1 ? rateHover : rateValue]}</div>}
-            </Stack>
-            <Divider />
-            <Stack className="call-end__bottom" spacing={4} direction="row" alignItems="center">
-              <Link href={`/?${roomId}`}>{t("endCallStartOver")}</Link>
-              <Button variant="contained" color="primary" type="submit">
-                {t("ednCallSendBtn")}
-              </Button>
-            </Stack>
-          </form>
-        </Paper>
-      </Container>
+              <Stack className="call-end__rating" spacing={2} direction="row" alignItems="center">
+                <Rating
+                  name="rate_stars"
+                  value={rateValue}
+                  size="large"
+                  onChange={(_, newValue) => {
+                    setRateValue(newValue);
+                  }}
+                  onChangeActive={(_, newHover) => {
+                    setRateHover(newHover);
+                  }}
+                  emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                />
+                {rateValue !== null && <div className="call-end__rating-label">{labels[rateHover !== -1 ? rateHover : rateValue]}</div>}
+              </Stack>
+              <Divider />
+              <Stack className="call-end__bottom" spacing={4} direction="row" alignItems="center">
+                <Link href={`/?${roomId}`}>{t("endCallStartOver")}</Link>
+                <Button variant="contained" color="primary" type="submit">
+                  {t("endCallSendBtn")}
+                </Button>
+              </Stack>
+            </form>
+          </Paper>
+        </Container>
+        <Snackbar
+          open={endCallAlertOpen}
+          autoHideDuration={5000}
+          onClose={handleEndCallAlertClose}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          action={
+            <IconButton size="small" color="inherit" onClick={handleEndCallAlertClose}>
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          }
+        >
+          <Alert onClose={handleEndCallAlertClose} severity="success">
+            {t("endCallAlert")}
+          </Alert>
+        </Snackbar>
+      </>
     );
   }
 

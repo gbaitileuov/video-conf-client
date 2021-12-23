@@ -49,7 +49,8 @@ const resources = {
       endCallTextareaHelperText: "Рекомендуем оставлять отзывы не короче ста слов.",
       endCallRateTextArray: ["Выберите оценку", "Ужасно", "Плохо", "Нормально", "Хорошо", "Отлично"],
       endCallStartOver: "Не отправлять отзыв и начать заново",
-      ednCallSendBtn: "Отправить",
+      endCallSendBtn: "Отправить",
+      endCallAlert: "Большое спасибо за оставленный отзыв!",
     },
   },
   kk: {
@@ -98,7 +99,8 @@ const resources = {
       endCallTextareaHelperText: "Жазған пікіріңіз пайдалы болуы үшін, ондағы сөздердің саны 100-ден кем болмағаны абзал.",
       endCallRateTextArray: ["Бағалаңыз", "Мүлдем ұнамады", "Ұнамады", "Қалыпты", "Ұнады", "Қатты ұнады"],
       endCallStartOver: "Пікір жібермей, басынан бастау",
-      ednCallSendBtn: "Жіберу",
+      endCallSendBtn: "Жіберу",
+      endCallAlert: "Пікіріңізге көп рахмет!",
     },
   },
   en: {
@@ -147,7 +149,8 @@ const resources = {
       endCallTextareaHelperText: "Most helpful reviews have 100 words or more",
       endCallRateTextArray: ["Select a rating", "Hated it", "Didn't like it", "Just OK", "Liked it", "Loved it"],
       endCallStartOver: "Don't send feedback and start over",
-      ednCallSendBtn: "Submit",
+      endCallSendBtn: "Submit",
+      endCallAlert: "Thank you very much for your feedback!",
     },
   },
 };
