@@ -68,7 +68,7 @@ const Chat = ({ onClose, roomId, msg, sendingMsg, setSendingMsg }) => {
         formData.append("filemime", fileMime);
         formData.append("bytelength", binaryStr.byteLength);
 
-        const beUrl = "https://tmedback.herokuapp.com/api/create-chat/";
+        const beUrl = "https://tmed.su/api/create-chat/";
         fetch(beUrl, {
           method: "POST",
           mode: "cors",
@@ -186,7 +186,7 @@ const Chat = ({ onClose, roomId, msg, sendingMsg, setSendingMsg }) => {
     socket.emit("BE-send-message", { roomId, data });
     setInputMessage("");
 
-    const beUrl = "https://tmedback.herokuapp.com/api/create-chat/";
+    const beUrl = "https://tmed.su/api/create-chat/";
     fetch(beUrl, {
       method: "POST",
       mode: "cors",

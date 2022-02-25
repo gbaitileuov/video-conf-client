@@ -120,12 +120,7 @@ const ChatBubble = ({ message }) => {
               </div>
             </div>
             {message.fileURL ? (
-              <a
-                className="chat-panel__bubble-file-overlay"
-                target="_blank"
-                rel="noreferrer"
-                href={`https://tmedback.herokuapp.com${message.fileURL}`}
-              >
+              <a className="chat-panel__bubble-file-overlay" target="_blank" rel="noreferrer" href={`https://tmed.su${message.fileURL}`}>
                 <DownloadIcon />
               </a>
             ) : (
@@ -164,7 +159,7 @@ const ChatBubble = ({ message }) => {
                 target="_blank"
                 rel="noreferrer"
                 download={message.fileName}
-                href={`https://tmedback.herokuapp.com${message.fileURL}`}
+                href={`https://tmed.su${message.fileURL}`}
               >
                 <DownloadIcon />
               </a>

@@ -83,7 +83,7 @@ const Med = ({ onClose, diag, naz, setDiag, setNaz, sendDiagNazToChat, roomId, p
 
   useEffect(() => {
     setDatesUrl([]);
-    const beUrl = "https://tmedback.herokuapp.com/api/client-files/" + roomId;
+    const beUrl = "https://tmed.su/api/client-files/" + roomId + "/";
     fetch(beUrl, {
       method: "GET",
       mode: "cors",
@@ -97,14 +97,14 @@ const Med = ({ onClose, diag, naz, setDiag, setNaz, sendDiagNazToChat, roomId, p
         } else {
           setNaprAnalyzLoaded(true);
           if (data[0].image) {
-            setNaprUrl("https://tmedback.herokuapp.com" + data[0].image);
+            setNaprUrl("https://tmed.su" + data[0].image);
           }
           if (data[0].analyze) {
             setDatesUrl((prev) => [
               ...prev,
               {
                 date: getDateTime(),
-                analyzes: [{ url: "https://tmedback.herokuapp.com" + data[0].analyze, title: data[0].analyze.replace(/^.*[\\/]/, "") }],
+                analyzes: [{ url: "https://tmed.su" + data[0].analyze, title: data[0].analyze.replace(/^.*[\\/]/, "") }],
               },
             ]);
           }

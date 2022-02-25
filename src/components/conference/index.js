@@ -83,7 +83,7 @@ const Conference = () => {
   useEffect(() => {
     const roomIDAddress = window.location.search.substring(1).trim();
     if (roomIDAddress.length === 36) {
-      const beUrl = "https://tmedback.herokuapp.com/api/link-date/" + roomIDAddress;
+      const beUrl = "https://tmed.su/api/link-date/" + roomIDAddress + "/";
 
       socket.on("connect", () => {
         socket.emit("BE-allow-join-room", { roomId: roomIDAddress, userId: socket.id });
@@ -179,7 +179,7 @@ const Conference = () => {
 
     auth.join(e.target.name.value, userId);
 
-    const beUrl = "https://tmedback.herokuapp.com/api/create-chat/";
+    const beUrl = "https://tmed.su/api/create-chat/";
     fetch(beUrl, {
       method: "POST",
       mode: "cors",

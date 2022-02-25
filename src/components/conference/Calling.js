@@ -166,7 +166,7 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
   useEffect(() => {
     ["popstate"].forEach((event) => window.addEventListener(event, () => (window.location.href = "/?" + roomId)));
 
-    const beUrl = "https://tmedback.herokuapp.com/api/chatDetails/" + roomId;
+    const beUrl = "https://tmed.su/api/chatDetails/" + roomId + "/";
     fetch(beUrl, {
       method: "GET",
       mode: "cors",
@@ -350,7 +350,7 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
             };
           });
 
-          // const beUrl = "https://tmedback.herokuapp.com/api/create-chat/";
+          // const beUrl = "https://tmed.su/api/create-chat/";
           // fetch(beUrl, {
           //   method: "POST",
           //   mode: "cors",
@@ -499,7 +499,7 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
     };
     socket.emit("BE-send-message", { roomId, data });
 
-    const beUrl = "https://tmedback.herokuapp.com/api/create-chat/";
+    const beUrl = "https://tmed.su/api/create-chat/";
     fetch(beUrl, {
       method: "POST",
       mode: "cors",
@@ -567,7 +567,7 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
       return;
     }
 
-    const beUrl = "https://tmedback.herokuapp.com/api/create-chat/";
+    const beUrl = "https://tmed.su/api/create-chat/";
     fetch(beUrl, {
       method: "POST",
       mode: "cors",
