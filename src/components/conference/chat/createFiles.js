@@ -2,7 +2,7 @@ import { jsPDF } from "jspdf";
 import "./Roboto-normal";
 import FileSaver from "file-saver";
 
-export const createPDF = (diag, naz, fileName, diagTitle, nazTitle, returnSize = false) => {
+export const createPDF = (diag, fileName, diagTitle, returnSize = false) => {
   const doc = new jsPDF();
   // const pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
   const pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
@@ -14,13 +14,13 @@ export const createPDF = (diag, naz, fileName, diagTitle, nazTitle, returnSize =
   doc.setFontSize(12);
   doc.text(diag, 15, 30, { maxWidth: 180 });
 
-  doc.addPage();
+  // doc.addPage();
 
-  doc.setFontSize(14);
-  doc.text(nazTitle, pageWidth / 2, 20, { align: "center" });
+  // doc.setFontSize(14);
+  // doc.text(nazTitle, pageWidth / 2, 20, { align: "center" });
 
-  doc.setFontSize(12);
-  doc.text(naz, 15, 30, { maxWidth: 180 });
+  // doc.setFontSize(12);
+  // doc.text(naz, 15, 30, { maxWidth: 180 });
 
   if (returnSize) {
     return doc.output().length;

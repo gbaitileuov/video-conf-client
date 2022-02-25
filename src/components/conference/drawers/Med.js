@@ -147,7 +147,7 @@ const Med = ({ onClose, diag, naz, setDiag, setNaz, sendDiagNazToChat, roomId, p
                 label={t("diagnosis")}
                 fullWidth
                 multiline
-                minRows={4}
+                minRows={18}
                 maxRows={18}
                 onChange={(e) => setDiag(e.target.value)}
                 value={diag}
@@ -156,7 +156,7 @@ const Med = ({ onClose, diag, naz, setDiag, setNaz, sendDiagNazToChat, roomId, p
                 // dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
                 // sunt in culpa qui officia deserunt mollit anim id est laborum."
               />
-              <TextField
+              {/* <TextField
                 className="session__textarea"
                 label={t("purpose")}
                 fullWidth
@@ -166,7 +166,7 @@ const Med = ({ onClose, diag, naz, setDiag, setNaz, sendDiagNazToChat, roomId, p
                 onChange={(e) => setNaz(e.target.value)}
                 value={naz}
                 // value="Baitileuov Gani"
-              />
+              /> */}
             </Box>
             <div className="session__actions">
               <Button size="small" variant="contained" onClick={sendDiagNazToChat}>
