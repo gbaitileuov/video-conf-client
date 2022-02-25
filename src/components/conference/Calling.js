@@ -67,7 +67,6 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
   const [peersCount, setPeersCount] = useState(0);
   const [msg, setMsg] = useState([]);
   const [diag, setDiag] = useState("");
-  const [naz, setNaz] = useState("");
   const [sendingMsg, setSendingMsg] = useState(false);
   const [alertDiagNazOpen, setAlertDiagNazOpen] = useState(false);
   const { t } = useTranslation();
@@ -198,18 +197,17 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
                   }),
                 ]);
               }
-            } else if (!_.isEmpty(data.diagnoz) && !_.isEmpty(data.appointment)) {
-              const size = createPDF(data.diagnoz, data.appointment, null, t("diagnosis"), t("purpose"), true);
+            } else if (!_.isEmpty(data.diagnoz)) {
+              const size = createPDF(data.diagnoz, null, t("diagnosis"), true);
               if (auth.user.name !== data.username) {
                 setMsg((msgs) => [
                   ...msgs,
                   new Message({
                     id: 4,
                     sender: data.username,
-                    medFileName: `${t("diagnosis")}-${t("purpose")}`,
+                    medFileName: `${t("diagnosis")}`,
                     medFileSize: size,
                     medDiag: data.diagnoz,
-                    medNaz: data.appointment,
                   }),
                 ]);
               } else if (auth.user.name === data.username) {
@@ -218,10 +216,9 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
                   new Message({
                     id: 3,
                     sender: t("me"),
-                    medFileName: `${t("diagnosis")}-${t("purpose")}`,
+                    medFileName: `${t("diagnosis")}`,
                     medFileSize: size,
                     medDiag: data.diagnoz,
-                    medNaz: data.appointment,
                   }),
                 ]);
               }
@@ -408,18 +405,17 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
               }),
             ]);
           }
-        } else if (!_.isEmpty(data.diag) && !_.isEmpty(data.naz)) {
-          const size = createPDF(data.diag, data.naz, null, t("diagnosis"), t("purpose"), true);
+        } else if (!_.isEmpty(data.diag)) {
+          const size = createPDF(data.diag, null, t("diagnosis"), true);
           if (auth.user.id !== data.uid) {
             setMsg((msgs) => [
               ...msgs,
               new Message({
                 id: 4,
                 sender: data.name,
-                medFileName: `${t("diagnosis")}-${t("purpose")}`,
+                medFileName: `${t("diagnosis")}`,
                 medFileSize: size,
                 medDiag: data.diag,
-                medNaz: data.naz,
               }),
             ]);
           } else if (auth.user.id === data.uid) {
@@ -428,10 +424,9 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
               new Message({
                 id: 3,
                 sender: t("me"),
-                medFileName: `${t("diagnosis")}-${t("purpose")}`,
+                medFileName: `${t("diagnosis")}`,
                 medFileSize: size,
                 medDiag: data.diag,
-                medNaz: data.naz,
               }),
             ]);
           }
@@ -490,12 +485,11 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
   }, [devicesInitialized, deviceSettings.audioDevice, deviceSettings.videoDevice]);
 
   const sendDiagNazToChat = () => {
-    if (_.isEmpty(diag.trim()) || _.isEmpty(naz.trim())) return;
+    if (_.isEmpty(diag.trim())) return;
     const data = {
       uid: auth.user.id,
       name: auth.user.name,
       diag,
-      naz,
     };
     socket.emit("BE-send-message", { roomId, data });
 
@@ -508,7 +502,7 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ link: roomId, username: auth.user.name, diagnoz: diag, appointment: naz }),
+      body: JSON.stringify({ link: roomId, username: auth.user.name, diagnoz: diag, appointment: "111" }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -756,16 +750,7 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
       </Snackbar>
       {settingsOn && <Settings onClose={closeDrawerActions} />}
       {medOn && (
-        <Med
-          onClose={closeDrawerActions}
-          diag={diag}
-          setDiag={setDiag}
-          setNaz={setNaz}
-          naz={naz}
-          sendDiagNazToChat={sendDiagNazToChat}
-          roomId={roomId}
-          peersRef={peersRef}
-        />
+        <Med onClose={closeDrawerActions} diag={diag} setDiag={setDiag} sendDiagNazToChat={sendDiagNazToChat} roomId={roomId} peersRef={peersRef} />
       )}
       {chatOn && <Chat onClose={closeDrawerActions} roomId={roomId} msg={msg} sendingMsg={sendingMsg} setSendingMsg={setSendingMsg} />}
       {peopleOn && <People auth={auth} onClose={closeDrawerActions} peersRef={peersRef} />}

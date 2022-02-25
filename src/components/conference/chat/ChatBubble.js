@@ -58,10 +58,7 @@ const ChatBubble = ({ message }) => {
                 <div className="chat-panel__bubble-file-size">{filesize(message.medFileSize).human("jedec")}</div>
               </div>
             </div>
-            <div
-              className="chat-panel__bubble-file-overlay"
-              onClick={() => createPDF(message.medDiag, message.medNaz, message.medFileName, t("diagnosis"), t("diagnosis"))}
-            >
+            <div className="chat-panel__bubble-file-overlay" onClick={() => createPDF(message.medDiag, message.medFileName, t("diagnosis"))}>
               <DownloadIcon />
             </div>
           </div>
@@ -85,10 +82,7 @@ const ChatBubble = ({ message }) => {
                 <div className="chat-panel__bubble-file-size">{filesize(message.medFileSize).human("jedec")}</div>
               </div>
             </div>
-            <div
-              className="chat-panel__bubble-file-overlay"
-              onClick={() => createPDF(message.medDiag, message.medNaz, message.medFileName, t("diagnosis"), t("purpose"))}
-            >
+            <div className="chat-panel__bubble-file-overlay" onClick={() => createPDF(message.medDiag, message.medFileName, t("diagnosis"))}>
               <DownloadIcon />
             </div>
           </div>
