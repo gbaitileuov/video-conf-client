@@ -5,10 +5,10 @@ import DownloadIcon from "@mui/icons-material/Download";
 import ImageIcon from "@mui/icons-material/Image";
 import filesize from "file-size";
 import { createPDF, createFile } from "./createFiles";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 
 const ChatBubble = ({ message }) => {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   // Remote message
   if (message.id === 1) {
     return (
@@ -55,10 +55,10 @@ const ChatBubble = ({ message }) => {
               <PictureAsPdfIcon />
               <div>
                 <div className="chat-panel__bubble-file-name">{message.medFileName}.pdf</div>
-                <div className="chat-panel__bubble-file-size">{filesize(message.medFileSize).human("jedec")}</div>
+                {/* <div className="chat-panel__bubble-file-size">{filesize(message.medFileSize).human("jedec")}</div> */}
               </div>
             </div>
-            <div className="chat-panel__bubble-file-overlay" onClick={() => createPDF(message.medDiag, message.medFileName, t("diagnosis"))}>
+            <div className="chat-panel__bubble-file-overlay" onClick={() => createPDF(message.medDiag, message.medPacient, message.medDoctor)}>
               <DownloadIcon />
             </div>
           </div>
@@ -79,10 +79,10 @@ const ChatBubble = ({ message }) => {
               <PictureAsPdfIcon />
               <div>
                 <div className="chat-panel__bubble-file-name">{message.medFileName}.pdf</div>
-                <div className="chat-panel__bubble-file-size">{filesize(message.medFileSize).human("jedec")}</div>
+                {/* <div className="chat-panel__bubble-file-size">{filesize(message.medFileSize).human("jedec")}</div> */}
               </div>
             </div>
-            <div className="chat-panel__bubble-file-overlay" onClick={() => createPDF(message.medDiag, message.medFileName, t("diagnosis"))}>
+            <div className="chat-panel__bubble-file-overlay" onClick={() => createPDF(message.medDiag, message.medPacient, message.medDoctor)}>
               <DownloadIcon />
             </div>
           </div>

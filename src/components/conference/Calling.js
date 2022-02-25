@@ -42,7 +42,6 @@ import { setAudio, setVideo } from "../../store/localVideoSettingsSlice";
 import _ from "lodash";
 import RemoteVideoView from "./videoview/RemoteVideoView";
 import Message from "./chat/message";
-import { createPDF } from "./chat/createFiles";
 import Peer from "simple-peer";
 import { useTranslation } from "react-i18next";
 
@@ -198,7 +197,6 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
                 ]);
               }
             } else if (!_.isEmpty(data.diagnoz)) {
-              const size = createPDF(data.diagnoz, null, t("diagnosis"), true);
               if (auth.user.name !== data.username) {
                 setMsg((msgs) => [
                   ...msgs,
@@ -206,8 +204,9 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
                     id: 4,
                     sender: data.username,
                     medFileName: `${t("diagnosis")}`,
-                    medFileSize: size,
                     medDiag: data.diagnoz,
+                    medPacient: data.pacient,
+                    medDoctor: data.username,
                   }),
                 ]);
               } else if (auth.user.name === data.username) {
@@ -217,8 +216,9 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
                     id: 3,
                     sender: t("me"),
                     medFileName: `${t("diagnosis")}`,
-                    medFileSize: size,
                     medDiag: data.diagnoz,
+                    medPacient: data.pacient,
+                    medDoctor: data.username,
                   }),
                 ]);
               }
@@ -406,7 +406,6 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
             ]);
           }
         } else if (!_.isEmpty(data.diag)) {
-          const size = createPDF(data.diag, null, t("diagnosis"), true);
           if (auth.user.id !== data.uid) {
             setMsg((msgs) => [
               ...msgs,
@@ -414,8 +413,9 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
                 id: 4,
                 sender: data.name,
                 medFileName: `${t("diagnosis")}`,
-                medFileSize: size,
                 medDiag: data.diag,
+                medPacient: data.pacient,
+                medDoctor: data.name,
               }),
             ]);
           } else if (auth.user.id === data.uid) {
@@ -425,8 +425,9 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
                 id: 3,
                 sender: t("me"),
                 medFileName: `${t("diagnosis")}`,
-                medFileSize: size,
                 medDiag: data.diag,
+                medPacient: data.pacient,
+                medDoctor: data.name,
               }),
             ]);
           }
@@ -490,6 +491,7 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
       uid: auth.user.id,
       name: auth.user.name,
       diag,
+      pacient: peersRef.current[0] ? peersRef.current[0].userName : "Unknown",
     };
     socket.emit("BE-send-message", { roomId, data });
 
@@ -502,7 +504,7 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ link: roomId, username: auth.user.name, diagnoz: diag, appointment: "111" }),
+      body: JSON.stringify({ link: roomId, username: auth.user.name, diagnoz: diag, pacient: data.pacient, appointment: "111" }),
     })
       .then((response) => response.json())
       .then((data) => {

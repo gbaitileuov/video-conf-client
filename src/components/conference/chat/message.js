@@ -6,6 +6,8 @@ export default class Message {
     this.medFileName = data.medFileName || undefined;
     this.medFileSize = data.medFileSize || undefined;
     this.medDiag = data.medDiag || undefined;
+    this.medPacient = data.medPacient || undefined;
+    this.medDoctor = data.medDoctor || undefined;
     this.muted = data.muted || undefined;
     this.fileName = data.fileName || undefined;
     this.fileExt = data.fileExt || undefined;
