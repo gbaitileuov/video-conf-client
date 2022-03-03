@@ -582,7 +582,8 @@ const Calling = ({ roomId, userId, socket, roomIdChecked }) => {
         }
 
         setEndCallAlertOpen(true);
-        setTimeout(() => (window.location.href = "/?" + roomId), 5000);
+        // setTimeout(() => (window.location.href = "/?" + roomId), 5000);
+        window.location.href = "/?" + roomId;
       })
       .catch((e) => console.log(e));
   };
